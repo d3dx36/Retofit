@@ -1,16 +1,24 @@
 package com.example.retrofit
 
+import android.R.attr.onClick
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.retrofit.retrofit.FilmApi
 import com.example.retrofit.ui.theme.RetrofitTheme
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            Ui()
         }
         val retrofit = Retrofit.Builder().baseUrl("http://www.omdbapi.com").addConverterFactory(
             GsonConverterFactory.create()
@@ -33,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val film = filmApi.getFilm()
-            runOnUiThread {  }
+            runOnUiThread { }
         }
     }
 }
@@ -42,6 +51,18 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun Ui() {
+    Column(){
+//        Кнопка с помощью которого отправляется запрос на сервер
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(10.dp)) {
+            Text("Click")
+        }
+//Здесь должен быть текст полученный с помощью сетевого запроса
+        Text(film)
+
+    }
+
 
 }
 
